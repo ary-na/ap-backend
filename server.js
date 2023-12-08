@@ -8,8 +8,6 @@ const nodemailer = require('nodemailer')
 const Utils = require("./Utils")
 const port = process.env.PORT || 3000
 
-// Database connection ---------------------------------------------------------
-
 // Express app setup and middleware --------------------------------------------
 const app = express()
 app.use(express.json())
@@ -21,9 +19,8 @@ app.use("*", cors())
 // - Contact me route
 app.post('/contact', async (req, res) => {
     try {
-
         // Check if body is missing.
-        if (!req.body.name || !req.body.email || req.body.message)
+        if (!req.body.name || !req.body.email || !req.body.message)
             return res.status(400).json({
                 message: "Body is missing!"
             })
