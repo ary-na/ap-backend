@@ -52,11 +52,11 @@ app.post('/contact', async (req, res) => {
         const info = await transporter.sendMail(mailOptions);
 
         console.log(`Message sent: ${info.messageId}`);
-        res.send('Email sent successfully!');
+        res.json({message: 'Email sent successfully!'});
 
     } catch (err) {
         console.error(err);
-        res.status(500).send('Internal server error.');
+        res.status(500).json({message: 'Internal server error.'});
     }
 })
 
