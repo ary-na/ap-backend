@@ -1,36 +1,37 @@
-# syntax=docker/dockerfile:1
+# Use the official Node.js image for AWS Lambda
+FROM amazonlinux:2 AS build
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
+# Install Node.js and npm
+RUN yum install -y amazon-linux-extras
+RUN amazon-linux-extras install -y nodejs14
 
-ARG NODE_VERSION=21.3.0
+# Set the working directory
+WORKDIR /app
 
-FROM node:${NODE_VERSION}-alpine
+# Copy package.json and package-lock.json to install dependencies
+COPY package*.json ./
 
-# Use production node environment by default.
-ENV NODE_ENV production
+# Install production dependencies
+RUN npm ci --only=production
 
-
-WORKDIR /usr/src/app
-
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
-# into this layer.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-
-# Run the application as a non-root user.
-USER node
-
-# Copy the rest of the source files into the image.
+# Copy the application code
 COPY . .
 
-# Expose the port that the application listens on.
-EXPOSE 3000
+# Clean up unnecessary files (optional)
+RUN rm -rf node_modules/.bin
+RUN rm -rf test
 
-# Run the application.
-CMD npm start
+# Lambda function runtime image
+FROM amazonlinux:2
+
+# Set the working directory
+WORKDIR /var/task
+
+# Copy from the build stage
+COPY --from=build /app .
+
+# Set environment variables (if needed)
+# ENV MY_ENV_VAR=value
+
+# Lambda handler function
+CMD ["index.handler"]
