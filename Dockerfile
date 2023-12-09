@@ -1,12 +1,6 @@
-# Use the official Node.js image for AWS Lambda
-FROM amazonlinux:2 AS build
+# Use an official Node.js image
+FROM node:16-alpine
 
-# Install Node.js from the NodeSource repository
-RUN yum install -y gcc-c++ make
-RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-RUN yum install -y nodejs
-
-# Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
@@ -25,11 +19,10 @@ RUN rm -rf test
 # Lambda function runtime image
 FROM amazonlinux:2
 
-# Set the working directory
 WORKDIR /var/task
 
 # Copy from the build stage
-COPY --from=build /app .
+COPY --from=0 /app .
 
 # Set environment variables (if needed)
 # ENV MY_ENV_VAR=value
