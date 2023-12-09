@@ -3,7 +3,8 @@ name: Build and Push to ECR
 on:
   push:
     branches:
-      - main
+      - releases/0.1.0
+      - releases/1.0.0
 
 jobs:
   build:
