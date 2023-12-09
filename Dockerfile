@@ -1,9 +1,10 @@
 # Use the official Node.js image for AWS Lambda
 FROM amazonlinux:2 AS build
 
-# Install Node.js and npm
-RUN yum install -y amazon-linux-extras
-RUN amazon-linux-extras install -y nodejs14
+# Install Node.js from the NodeSource repository
+RUN yum install -y gcc-c++ make
+RUN curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+RUN yum install -y nodejs
 
 # Set the working directory
 WORKDIR /app
