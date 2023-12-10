@@ -27,15 +27,13 @@ exports.handler = async (event, context) => {
         const {name, email, message} = body
 
         // Send email
-        const info = await Utils.sendEmail(email, `I got your message ${name}`, `Name: ${name}\nEmail: ${email}\nMessage: ${message}`)
+        await Utils.sendEmail(email, `I got your message ${name}`, `Name: ${name}\nEmail: ${email}\nMessage: ${message}`)
 
-        console.log(`Message sent: ${info.messageId}`);
         return {
             statusCode: 200,
             body: JSON.stringify({message: 'Email sent successfully!'})
         };
     } catch (err) {
-        console.error(err);
         return {
             statusCode: 500,
             body: JSON.stringify({message: 'Internal server error.'})
