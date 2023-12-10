@@ -27,7 +27,7 @@ class Utils {
     }
 
     validateMessage(message) {
-        const messageRegexPattern = /^[a-zA-Z0-9,.!?()\s]+$/
+        const messageRegexPattern = /^[a-zA-Z0-9,.!?():'\s"-]+$/
         return new RegExp(messageRegexPattern).test(message)
     }
 
