@@ -3,7 +3,7 @@
 // Dependencies ----------------------------------------------------------------
 const Utils = require("./Utils")
 
-// Contact me handler
+// Contact me form handler
 exports.handler = async (event, context) => {
     try {
         const body = JSON.parse(event.body)
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
         }
 
         // Send email
-        await Utils.sendEmail(email, `I got your message ${name}`, `Name: ${name}\nEmail: ${email}\nMessage: ${message}`)
+        await Utils.sendEmail(email, name, message)
 
         return {
             statusCode: 200,
