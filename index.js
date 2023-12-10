@@ -1,8 +1,6 @@
 // @file    ./index.js
 
 // Dependencies ----------------------------------------------------------------
-require("dotenv").config()
-const nodemailer = require('nodemailer')
 const Utils = require("./Utils")
 
 // Setup routes ----------------------------------------------------------------
@@ -10,7 +8,7 @@ const Utils = require("./Utils")
 // - Contact me route
 exports.handler = async (event, context) => {
     try {
-        const body = JSON.parse(event.body);
+        const body = JSON.parse(event.body)
 
         // Check if body is missing.
         if (!body.name || !body.email || !body.message)
@@ -27,31 +25,15 @@ exports.handler = async (event, context) => {
             }
 
         const {name, email, message} = body
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_ADDRESS,
-                pass: process.env.EMAIL_PASSWORD
-            },
-        })
-
-        // Setup email data
-        const mailOptions = {
-            from: process.env.EMAIL_ADDRESS,
-            to: email,
-            subject: `I got your message ${name}`,
-            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-        }
 
         // Send email
-        const info = await transporter.sendMail(mailOptions);
+        const info = await Utils.sendEmail(email, `I got your message ${name}`, `Name: ${name}\nEmail: ${email}\nMessage: ${message}`)
 
         console.log(`Message sent: ${info.messageId}`);
         return {
             statusCode: 200,
             body: JSON.stringify({message: 'Email sent successfully!'})
-        }
-
+        };
     } catch (err) {
         console.error(err);
         return {
