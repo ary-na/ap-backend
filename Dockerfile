@@ -1,31 +1,17 @@
-# Use an official Node.js image
-FROM node:16-alpine
+# Use the official AWS Lambda Node.js 14 runtime as a base image
+FROM amazon/aws-lambda-nodejs:16
 
-WORKDIR /app
-
-# Copy package.json and package-lock.json to install dependencies
-COPY package*.json ./
-
-# Install production dependencies
-RUN npm ci --only=production
-
-# Copy the application code
-COPY . .
-
-# Clean up unnecessary files (optional)
-RUN rm -rf node_modules/.bin
-RUN rm -rf test
-
-# Lambda function runtime image
-FROM amazonlinux:2
-
+# Set the working directory
 WORKDIR /var/task
 
-# Copy from the build stage
-COPY --from=0 /app .
+# Copy the Lambda function code and dependencies
+COPY index.js .
+COPY Utils.js .
+COPY package.json .
+COPY package-lock.json .
 
-# Set environment variables (if needed)
-# ENV MY_ENV_VAR=value
+# Install Node.js dependencies
+RUN npm ci --production
 
-# Lambda handler function
-CMD ["index.handler"]
+# Specify the Lambda handler (replace 'index.handler' with your actual handler)
+CMD [ "index.handler" ]
