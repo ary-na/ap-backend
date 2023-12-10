@@ -1,7 +1,7 @@
 {
   "name": "ap-backend",
   "version": "0.1.0",
-  "description": "This is the backend for my portfolio website showcasing my work.",
+  "description": "This is a serverless lambda function that handles the contact me form of my portfolio website.",
   "main": "index.js",
   "scripts": {
     "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
