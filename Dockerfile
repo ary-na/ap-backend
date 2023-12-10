@@ -5,13 +5,13 @@ FROM amazon/aws-lambda-nodejs:20
 WORKDIR /var/task
 
 # Copy the Lambda function code and dependencies
-COPY index.js ./
-COPY Utils.js ./
-COPY package.json ./
-COPY package-lock.json ./
+COPY index.js .
+COPY Utils.js .
+COPY package.json .
+COPY package-lock.json .
 
 # Install Node.js dependencies
 RUN npm ci --production
 
 # Specify the Lambda handler (replace 'index.handler' with your actual handler)
-CMD [ "./index.handler" ]
+CMD [ "index.handler" ]
