@@ -1,5 +1,8 @@
-# Use the official AWS Lambda Node.js 20 runtime as a base image
-FROM public.ecr.aws/lambda/nodejs:20.2023.11.12.08-arm64
+# Use the official AWS Lambda Node.js 14 runtime as a base image
+FROM amazon/aws-lambda-nodejs:20
+
+# Set the working directory
+WORKDIR /var/task
 
 # Copy the Lambda function code and dependencies
 COPY index.js ./
