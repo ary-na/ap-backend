@@ -13,5 +13,5 @@ COPY package-lock.json .
 # Install Node.js dependencies
 RUN npm ci --production
 
-# Specify the Lambda handler (replace 'index.handler' with your actual handler)
+# Specify the Lambda handler
 CMD [ "index.handler" ]
