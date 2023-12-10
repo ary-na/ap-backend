@@ -40,7 +40,7 @@ class Utils {
             text,
         };
 
-        return await transporter.sendMail(mailOptions);
+        return transporter.sendMail(mailOptions);
     };
 }
 
