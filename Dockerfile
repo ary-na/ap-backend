@@ -9,6 +9,6 @@ COPY package.json ./
 COPY package-lock.json ./
 
 # Install Node.js dependencies
-RUN npm ci --production
+RUN npm start
 
 CMD [ "index.handler" ]
