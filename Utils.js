@@ -25,7 +25,7 @@ class Utils {
         return messageRegex.test(message)
     }
     async sendEmail(to, subject, text) {
-        const transporter = nodemailer.createTransport({
+        const transporter = await nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: process.env.EMAIL_ADDRESS,
