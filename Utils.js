@@ -116,6 +116,7 @@ class Utils {
                     height: auto;
                     display: block;
                     margin: 0 auto;
+                    padding-top: 1em;
                 }
     
                 .footer {
@@ -134,6 +135,10 @@ class Utils {
     
                     ul {
                         margin: 3em 0;
+                    }
+                    
+                    svg {
+                        padding-top: 0;
                     }
                 }
             </style>
